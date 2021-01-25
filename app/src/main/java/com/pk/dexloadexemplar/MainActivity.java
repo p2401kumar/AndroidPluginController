@@ -11,6 +11,7 @@ import com.pk.dexloadexemplar.apk.ApkFileInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dalvik.system.DexClassLoader;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(value = R.id.instance1)
