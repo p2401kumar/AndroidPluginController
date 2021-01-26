@@ -14,12 +14,13 @@ class DexLauncherTask(
         if (t.file == null)return false
 
         val dexLocation = t.file!!.parent + "/" + t.uuid + "/classes.dex"
+
         val optimizedAbsPath = context.getDir("outdex", Context.MODE_PRIVATE).absolutePath;
         val dexClassLoader = DexClassLoader(dexLocation, optimizedAbsPath, null, context.classLoader)
 
         val loadClass = dexClassLoader.loadClass(t.mainActivity)
-        val intent = Intent(context, loadClass)
-        context.startActivity(intent)
+        loadClass.newInstance()
+
         DLog.d(TAG, "apply", "load classes")
         return true
     }

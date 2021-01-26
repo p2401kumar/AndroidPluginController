@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
         if (apkFile1 != null) {
             instance1.setOnClickListener(
                     buttonActionFactory.getAction(
+                            this,
                             apkFile1,
-                            new DexDisposableObserver(this, apkFile1, progressBar, instance1)
+                            progressBar,
+                            instance1
                     ));
         }
 
@@ -46,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
         if (apkFile2 != null) {
             instance2.setOnClickListener(
                     buttonActionFactory.getAction(
+                            this,
                             apkFile2,
-                            new DexDisposableObserver(this, apkFile2, progressBar, instance2)
+                            progressBar,
+                            instance2
                     ));
         }
     }
