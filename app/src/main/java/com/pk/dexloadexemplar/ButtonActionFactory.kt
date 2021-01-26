@@ -12,6 +12,7 @@ class ButtonActionFactory internal constructor(var context: Context) {
             dexDisposableObserver: DexDisposableObserver
     ): View.OnClickListener {
         return View.OnClickListener {
+            it?.isEnabled = false
             val copyFileToUrl = FileDownloadHelper.copyFileToUrl(
                     context,
                     apkFile.apkUrl,

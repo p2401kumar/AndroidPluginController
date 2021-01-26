@@ -1,6 +1,7 @@
 package com.pk.dexloadexemplar
 
 import android.content.Context
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.pk.dexloadexemplar.DLog.DLog
@@ -10,7 +11,8 @@ import io.reactivex.observers.DisposableObserver
 class DexDisposableObserver(
         var context: Context,
         var apkFile: ApkFile,
-        var progressBar: ProgressBar
+        var progressBar: ProgressBar,
+        var view: View? = null
 ) : DisposableObserver<Double?>() {
     override fun onNext(aDouble: Double) {
         DLog.d(TAG, "onNext", "Progress: $aDouble")
@@ -19,12 +21,18 @@ class DexDisposableObserver(
 
     override fun onError(e: Throwable) {
         DLog.e(TAG, "onError", "Error: $e")
+        progressBar.post {
+            view?.isEnabled = true
+        }
     }
 
     override fun onComplete() {
         DLog.i(TAG, "onComplete", "completed")
         progressBar.progress = 0
-        progressBar.post { Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show() }
+        progressBar.post {
+            Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show()
+            view?.isEnabled = true
+        }
     }
 
     companion object {
