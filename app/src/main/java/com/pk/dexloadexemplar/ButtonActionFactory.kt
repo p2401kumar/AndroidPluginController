@@ -3,7 +3,7 @@ package com.pk.dexloadexemplar
 import android.content.Context
 import android.view.View
 import com.pk.dexloadexemplar.apk.ApkFile
-import com.pk.dexloadexemplar.downloadHelper.FileDownloadHelper
+import com.pk.dexloadexemplar.downloadHelper.FileDownloadTask
 import io.reactivex.schedulers.Schedulers
 
 class ButtonActionFactory internal constructor(var context: Context) {
@@ -13,10 +13,9 @@ class ButtonActionFactory internal constructor(var context: Context) {
     ): View.OnClickListener {
         return View.OnClickListener {
             it?.isEnabled = false
-            val copyFileToUrl = FileDownloadHelper.copyFileToUrl(
+            val copyFileToUrl = FileDownloadTask.copyFileToUrl(
                     context,
-                    apkFile.apkUrl,
-                    apkFile.apkName)
+                    apkFile)
             if (copyFileToUrl.isPresent) {
                 copyFileToUrl.get()
                         .subscribeOn(Schedulers.io())

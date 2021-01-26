@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ApkFile apkFile1 = ApkFileInfo.INSTANCE.get("Dex Example 1");
+
         if (apkFile1 != null) {
             instance1.setOnClickListener(
                     buttonActionFactory.getAction(

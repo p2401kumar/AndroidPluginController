@@ -6,6 +6,8 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.pk.dexloadexemplar.DLog.DLog
 import com.pk.dexloadexemplar.apk.ApkFile
+import com.pk.dexloadexemplar.extract.ExtractTask
+import com.pk.dexloadexemplar.runnerTask.DexLauncherTask
 import io.reactivex.observers.DisposableObserver
 
 class DexDisposableObserver(
@@ -32,7 +34,12 @@ class DexDisposableObserver(
         progressBar.post {
             Toast.makeText(context, "Download complete", Toast.LENGTH_SHORT).show()
             view?.isEnabled = true
+            if (ExtractTask(context).apply(apkFile)) {
+                Toast.makeText(context, "Extraction Done", Toast.LENGTH_SHORT).show()
+                DexLauncherTask(context).apply(apkFile)
+            }
         }
+
     }
 
     companion object {

@@ -24,23 +24,27 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-public class FileDownloadHelper {
+public class FileDownloadTask {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 100;
 
     public static Optional<Observable<Double>> copyFileToUrl(
             @NonNull Context context,
             @NonNull ApkFile apkFile
     ) {
-        return copyFileToUrl(context, apkFile.getApkUrl(), apkFile.getApkName());
+        return copyFileToUrl(context, apkFile.getApkUrl(), apkFile.getApkName(), apkFile);
     }
 
     public static Optional<Observable<Double>> copyFileToUrl(
             @NonNull Context context,
             @NonNull String url,
-            @NonNull String fileName
+            @NonNull String fileName,
+            @NonNull ApkFile apkFile
     ) {
         try {
             File file = new File(context.getExternalFilesDir(null), fileName);
+            synchronized (apkFile) {
+                apkFile.setFile(file);
+            }
             file.delete();
 
             return Optional.of(doCopy(
